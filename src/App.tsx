@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import { useFetch } from './hooks/useFetch';
+type Pokemon = {
+  name: string
+}
 
 function App() {
+  const {pokemons, isFetching} = useFetch<Pokemon[]>('/api/v2/pokemon?limit=100')
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={{"fontFamily": "Arial"}}>
+      {isFetching && <p>Carregando...</p>}
+      {pokemons?.map((pk, index)=>{
+        return(
+          <h1 className='' key={index}>{pk.name}</h1>
+        )
+      })}
     </div>
   );
 }
